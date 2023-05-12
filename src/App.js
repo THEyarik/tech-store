@@ -5,7 +5,6 @@ import LoginRegistration from "./components/login-registration/login-registratio
 function App() {
   return (
     <div className="App">
-
       <LoginRegistration/>
     </div>
   );
