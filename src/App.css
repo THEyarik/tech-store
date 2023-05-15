@@ -16,6 +16,11 @@ body{
   font-family: century gothic!important;
 }
 .App {
+overflow-x: hidden;
 
-
+}
+.container{
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
 }
