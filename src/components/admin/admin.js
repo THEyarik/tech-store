@@ -18,11 +18,16 @@ function Admin(props) {
 
     let config = {
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InN0cmluZyIsIm5iZiI6MTY4NDc3NzAyNSwiZXhwIjoxNjg0ODYzNDI0LCJpYXQiOjE2ODQ3NzcwMjV9.wHGD6vFE-xmTKniH3VL4bI1JRJYPDCZJQX7CDsW7iKE',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InN0cmluZyIsIm5iZiI6MTY4NDg2Mzc4NSwiZXhwIjoxNjg0OTUwMTg1LCJpYXQiOjE2ODQ4NjM3ODV9.LjMqlgLRnRkIlW-a3ncUoIxD2vbVmOXv7oc_dCJq4kk',
             'Content-Type': 'application/json',
         }
     }
-
+    let editConfig = {
+        headers: {
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InN0cmluZyIsIm5iZiI6MTY4NDg2Mzc4NSwiZXhwIjoxNjg0OTUwMTg1LCJpYXQiOjE2ODQ4NjM3ODV9.LjMqlgLRnRkIlW-a3ncUoIxD2vbVmOXv7oc_dCJq4kk',
+            'Content-Type': 'text/plain',
+        }
+    }
     const handleCurrentTemplate = (template) => {
         setCurrentTemplate(template);
     }
@@ -49,7 +54,7 @@ function Admin(props) {
                 {
                     (currentTemplate === "companies") ? <Companies config={config}/> :
 
-                        (currentTemplate === "products") ? <Products config={config}/> : ""
+                        (currentTemplate === "products") ? <Products config={config} editConfig={editConfig}/> : ""
                 }
 
 

@@ -89,6 +89,10 @@
     flex-direction: column;
     row-gap: 20px;
 }
+.dashboard__list__item__action__box{
+    display: flex;
+    column-gap: 10px;
+}
 .fields__table{
     display: flex;
     align-items: center;
