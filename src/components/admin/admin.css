@@ -1,10 +1,160 @@
 
 
-
-
-
-.admin__item{
+.admin__container{
     display: flex;
+    width: 100%;
+    overflow: hidden;
+
+}
+.admin__left__side-bar{
+    padding: 50px 0 0 30px;
+    width: 15%;
+    height: 100vh;
+    background: rgb(19, 19, 19);
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
     color: white;
+    font-size: 30px;
+    border-right: 1px solid #ffffff;
+}
+
+.nav__link{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.hide{
+    display: none!important;
+}
+.dashboard{
+    color: white;
+    width: 100%;
+    padding: 30px 30px 0 30px;
+}
+.dashboard__title{
+    color: white;
+    font-size: 30px;
+
+}
+
+.dashboard__navigation{
+    padding-top: 50px;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+}
+.dashboard__navigation__action{
+    display: flex;
+    column-gap: 30px;
+}
+.dashboard__item__create{
+    cursor: pointer;
+}
+.dashboard__list{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding-top: 30px;
+    width: 100%;
+}
+.dashboard__list__item{
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+
+    font-size: 20px;
+}
+.dashboard__list__item__content{
+    display: flex;
+    column-gap: 30px;
+}
+.dashboard__list__item__action{
+    cursor: pointer;
+}
+.dashboard__create__form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 50px 0 0 0px;
+}
+.dashboard__create__form__title{
+    font-size: 25px;
+}
+.dashboard__create__form__item{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.fields__table{
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    font-size: 20px;
+}
+.field__name{
+    width: 185px;
+}
+.field__input{
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff!important;
+    color: white;
+}
+.field__input__file{
+    border-bottom:none!important;
+}
+.field__input:focus{
+
+    outline: none;
+
+}
+.field__btn__box{
+    display: flex;
+    column-gap: 20px;
+}
+.field__btn{
+    color: black;
+    background: white;
+    height:40px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.fields__table__select{
+    position: relative;
+}
+.fields__table__select__title{
+    cursor: pointer;
+}
+.dashboard__list__item__name{
+    width: 210px;
+}
+.dashboard__list__item__id{
+    width: 100px;
+}
+.fields__table__select__dropdown{
+    position: absolute;
+    background: black;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 20px 0 0 10px ;
+}
+.company__select{
+    cursor: pointer;
+}
+.dashboard__adding-images__form{
+    padding-top: 50px;
+}
+.dashboard__create__form__body{
+    padding-top: 30px;
 }

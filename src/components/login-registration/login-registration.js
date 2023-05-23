@@ -12,7 +12,7 @@ function LoginRegistration() {
 
         const res = await Axios.post("http://localhost:39510/authentication/login", loginDate).then(
             (res) => {
-                setListClient(res.data)
+                // setListClient(res.data)
                 console.log("Posting data :", res);
                 console.log("well done")
             }
