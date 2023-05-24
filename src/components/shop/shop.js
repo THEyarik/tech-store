@@ -1,38 +1,32 @@
-import { Axios } from "axios";
 import React from "react";
-import { PRODUCTS } from "../../products";
-import { Product } from "./product";
+
+import {Product} from "./product";
 import "./shop.css";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
+import {getData} from "../../utils/hooks/hooks";
 
 
 export const Shop = () => {
-//   var[PRODUCTS1,setPRODUCTS1] = useState();
 
-// useEffect(() => {
-//   const fecthAllClient = async () => {
-//     try {
-//       const res = await Axios.get("http://localhost:3001/products/all")
-//       console.log(res.data)
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-//   fecthAllClient()
-//   console.log(PRODUCTS1);
-// })
+    const [productsData, setProductsData] = useState([]);
 
-  return (
-    <div className="shop">
-      <div className="shopTitle">
-        <h1> Tech Shop</h1>
-      </div>
 
-      <div className="products">
-        {PRODUCTS.map((product) => (
-          <Product data={product} />
-        ))}
-      </div>
-    </div>
-  );
+    useEffect(() => {
+        getData("products/all").then(res => {
+            setProductsData(res)
+        })
+    }, [])
+    return (
+        <div className="shop">
+            <div className="shopTitle">
+                <h1> Tech Shop</h1>
+            </div>
+
+            <div className="products">
+                {productsData.map((product) => (
+                    <Product product={product} key={product.id}/>
+                ))}
+            </div>
+        </div>
+    );
 };
