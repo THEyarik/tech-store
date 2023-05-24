@@ -4,7 +4,7 @@ import "../admin.css"
 import {postData, putData, getData,deleteData} from "../../../utils/hooks/hooks";
 
 
-function Companies({config}) {
+function Companies() {
 
     const [companiesData, setCompaniesData] = useState([]);
     const [createStatus, setCreateStatus] = useState(false);

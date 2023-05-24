@@ -4,7 +4,7 @@ import axios from "axios";
 import {postData, putData, getData, deleteData, postImages} from "../../../utils/hooks/hooks";
 
 
-function Products({config, editConfig}) {
+function Products() {
 
     const {register, getValues, setValue} = useForm();
     const [createStatus, setCreateStatus] = useState(false);
@@ -67,8 +67,8 @@ function Products({config, editConfig}) {
                 setCreateStatus(false);
             })
     }
-    const saveProductInput = () => {
-        postData("products", {
+    const getProductInputData = () =>{
+        return{
             "name": getValues("productName"),
             "description": getValues("productDescription"),
             "model": getValues("productModel"),
@@ -76,20 +76,15 @@ function Products({config, editConfig}) {
             "unitsAvailable": Number(getValues("productCount")),
             "producingCountry": getValues("productCountry"),
             "supplierId": chosenCompanyId,
-        }).then(response => {
+        }
+    }
+    const saveProductInput = () => {
+        postData("products",getProductInputData() ).then(response => {
             setCreateStatus(false)
         });
     }
     const putProductInput =  () => {
-        putData(`products/${currentProductDataForEdit.id}`, {
-            "name": getValues("productName"),
-            "description": getValues("productDescription"),
-            "model": getValues("productModel"),
-            "unitPrice": Number(getValues("productPrice")),
-            "unitsAvailable": Number(getValues("productCount")),
-            "producingCountry": getValues("productCountry"),
-            "supplierId": chosenCompanyId,
-        }).then(response => {
+        putData(`products/${currentProductDataForEdit.id}`, getProductInputData()).then(response => {
             setEditTableStatus(false);
             setCreateStatus(false);
         });
