@@ -1,0 +1,15 @@
+.clientContainer {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    background-color: #eee;
+}
+
+.dataClient {
+    padding: 20px;
+}
+
+.orders {
+    padding: 20px;
+}

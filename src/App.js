@@ -8,6 +8,7 @@ import { ProductDetails } from "./components/productDetails/productDetails";
 import { ShopContextProvider } from "./components/context/shop-context";
 import Admin from "./components/admin/admin";
 import LoginRegistration from "./components/login-registration/login-registration";
+import ClientPage from "./components/clientPage/clientPage";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                             <Route path="/login" element={<LoginRegistration/>} />
                             <Route path="/cart" element={<Cart />} />
                             <Route path="/product/:id" element={<ProductDetails />} />
+                            <Route path="/client" element={<ClientPage/>} />
                         </Routes>
 
                 </ShopContextProvider>

@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { redirect  } from "react-router-dom";
+
 import Axios from "axios"
 import "./login-registration.css";
-
-
 
 function LoginRegistration() {
     const [dateNewClient, setDateNewClient] = useState()
     const [loginDate, setLoginDate] = useState()
-
-    const loginClient = async () => {
-
+    const loginClient = async e => {
+        e.preventDefault();
         const res = await Axios.post("http://localhost:39510/authentication/login", loginDate).then(
             (res) => {
                 // setListClient(res.data)
                 console.log("Posting data :", res);
-                console.log("well done")
+                localStorage.setItem("token", JSON.stringify(res.data.token));
+                localStorage.setItem("username", JSON.stringify(res.data.username));
             }
         )
-
     }
     const loginChange = (e) => {
         setLoginDate(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -37,11 +36,9 @@ function LoginRegistration() {
         await Axios.post("http://localhost:39510/clients/register", dateNewClient)
             .then((res) => {
                 console.log("Posting data :", res);
-                
+
             })
             .catch((err) => console.log(err));
-
-        // navigate("/")
     }
 
     const loginHandlerButton = (e) => {
@@ -79,8 +76,8 @@ function LoginRegistration() {
                             <div className="signup" onClick={signupHandlerButton}>
                                 <h2 className="form-title" id="signup"><span>or</span>Sign up</h2>
                                 <div className="form-holder">
-                                    <input type="text" className="input" placeholder="lastName" name="lastName" onChange={handleChange} />
-                                    <input type="text" className="input" placeholder="firstName" name="firstName" onChange={handleChange} />
+                                    <input type="text" className="input" placeholder="Last Name" name="lastName" onChange={handleChange} />
+                                    <input type="text" className="input" placeholder="First Name" name="firstName" onChange={handleChange} />
                                     <input type="email" className="input" placeholder="Email" name="email" onChange={handleChange} />
                                     <input type="password" className="input" placeholder="Password"
                                         name="password" onChange={handleChange} />

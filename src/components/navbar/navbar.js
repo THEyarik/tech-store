@@ -21,6 +21,9 @@ export const Navbar = () => {
         <Link to="/cart" id="cartlink" className={location.pathname === "/cart" ? "active-link" : ""}>
           <ShoppingCart size={32} />
         </Link>
+        <Link to="/login"  className={location.pathname === "/login" ? "active-link" : ""}>
+          Login 
+        </Link>
       </div>
     </div>
   );

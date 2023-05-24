@@ -1,10 +1,7 @@
-
-
 .admin__container{
     display: flex;
     width: 100%;
     overflow: hidden;
-
 }
 .admin__left__side-bar{
     padding: 50px 0 0 30px;

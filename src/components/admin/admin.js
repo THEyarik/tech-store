@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import "./admin.css"
 import axios, {get} from "axios";
-
 import {useForm} from "react-hook-form";
-
 import {Cart} from "../cart/cart";
 import {ProductDetails} from "../productDetails/productDetails";
 import Companies from "./companies/companies";
