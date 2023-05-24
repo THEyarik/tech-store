@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import "../admin.css"
+import {postData, putData, getData,deleteData} from "../../../utils/hooks/hooks";
+
 
 function Companies({config}) {
 
@@ -13,78 +15,36 @@ function Companies({config}) {
 
     const handleInputCompaniesInput = (e) => {
         setCompaniesInput(e.target.value)
+    }
+    const getCompaniesData =  () => {
+        getData("companies/all").then(res => {
+           setCompaniesData(res)
+        })
 
     }
-    const getCompaniesData = async () => {
-        try {
-            const resp = await axios.get('http://localhost:39510/companies/all',
-                config,
-            ).then(response => {
-                // Handle response
-                setCompaniesData(response.data);
-
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
-    }
-    const deleteCurrentCompany = async (id) => {
-        try {
-            const resp = await axios.delete(`http://localhost:39510/companies/${id}`,
-                config,
-            ).then(response => {
-                if (response.status === 204) {
+    const deleteCurrentCompany = (id) => {
+        deleteData(`companies/${id}`)
+            .then(response => {
                     getCompaniesData();
                     setUpdatePage(true);
-
-                }
             });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
 
     }
-    const saveCompaniesData = async () => {
-        try {
-            const resp = await axios.post('http://localhost:39510/companies',
-                JSON.stringify({
-                    "name": companiesInput
-                }),
-                config,
-            ).then(response => {
-                if (response.status === 200) {
-                    getCompaniesData();
-                    setCreateStatus(false)
-                }
-            });
-
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
-
+    const saveCompaniesData =  () => {
+        postData("companies", {"name": companiesInput}).then(res => {
+            if (res === 200) {
+                getCompaniesData();
+                setCreateStatus(false)
+            }
+        })
     }
-    const putCompaniesData = async () => {
-        try {
-            const resp = await axios.put(`http://localhost:39510/companies/${currentCompanyDataForEdit.id}`,
-                JSON.stringify({
-                    "name": companiesInput
-                }),
-                config,
-            ).then(response => {
-                if (response.status === 200) {
-                    getCompaniesData();
-                    setCreateStatus(false)
-                }
-            });
-
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
-
+    const putCompaniesData =  () => {
+        putData(`companies/${currentCompanyDataForEdit.id}`,  {"name": companiesInput }).then(response => {
+            if (response === 200) {
+                getCompaniesData();
+                setCreateStatus(false)
+            }
+        });
 
     }
     const handleSaveCompaniesDataControllers = () => {
@@ -95,22 +55,16 @@ function Companies({config}) {
         }
 
     }
-    const getCurrentCompanyDataForEdit = async (id) => {
+    const getCurrentCompanyDataForEdit = (id) => {
+        getData(`companies/${Number(id)}`)
+            .then(response=>{
+                console.log(response)
+                setCurrentCompanyDataForEdit(response);
 
-        try {
-            const resp = await axios.get(`http://localhost:39510/companies/${Number(id)}`,
-                config,
-            ).then(response => {
-                // Handle response
-                setCurrentCompanyDataForEdit(response.data);
+                setCompaniesInput(response.name)
+            })
 
-                setCompaniesInput(response.data.name)
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
         }
-    }
     const showDashboard = () => {
         if (createStatus === true) {
             const dashboardCreateForm = document.querySelector('.dashboard__create__form');
@@ -124,7 +78,6 @@ function Companies({config}) {
             mainDashboardContent.classList.remove('hide')
         }
     }
-
     useEffect(() => {
         getCompaniesData();
         showDashboard()
@@ -204,7 +157,7 @@ function Companies({config}) {
                         </div>
                         <div className="field__btn__box">
                             <div className="field__btn"
-                                 onClick={handleSaveCompaniesDataControllers}>{(setEditTableStatus === false) ? "Add" : "Edit"} </div>
+                                 onClick={handleSaveCompaniesDataControllers}>{(editTableStatus === false) ? "Add" : "Edit"} </div>
                             <div className="field__btn" onClick={() => {
                                 setCreateStatus(false)
                             }}>Cancel

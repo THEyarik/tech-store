@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import axios from "axios";
+import {postData, putData, getData, deleteData, postImages} from "../../../utils/hooks/hooks";
 
 
 function Products({config, editConfig}) {
+
     const {register, getValues, setValue} = useForm();
     const [createStatus, setCreateStatus] = useState(false);
     const [createStatusImages, setCreateStatusImages] = useState(false);
@@ -16,183 +18,116 @@ function Products({config, editConfig}) {
     const [editTableStatus, setEditTableStatus] = useState(false);
     //const [productImage , setProductsImage] = useState();
 
-    const getCompaniesData = async () => {
-        try {
-            const resp = await axios.get('http://localhost:39510/companies/all',
-                config,
-            ).then(response => {
+    const getCompaniesData = () => {
+        getData("companies/all")
+            .then(response => {
                 // Handle response
-                setCompaniesData(response.data);
+                setCompaniesData(response);
 
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
+            })
     }
-    const getProductsData = async () => {
-        try {
-            const resp = await axios.get('http://localhost:39510/products/all',
-                config,
-            ).then(response => {
+    const getProductsData = () => {
+        getData("products/all")
+            .then(response => {
                 // Handle response
-                setProductsData(response.data);
+                setProductsData(response);
 
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
+            })
     }
-    const getCurrentProductDataForEdit = async (id) => {
-        try {
-            const resp = await axios.get(`http://localhost:39510/products/${Number(id)}`,
-                editConfig,
-            ).then(response => {
+
+    const getCurrentProductDataForEdit = (id) => {
+        getData(`products/${Number(id)}`)
+            .then(response => {
                 // Handle response
-                setCurrentProductDataForEdit(response.data);
-                setValue("productName", response.data.name);
-                setValue("productDescription", response.data.description);
-                setValue("productModel", response.data.model);
-                setValue("productPrice", response.data.unitPrice);
-                setValue("productCount", response.data.unitsAvailable);
-                setValue("productCountry", response.data.producingCountry);
+                setCurrentProductDataForEdit(response);
+                setValue("productName", response.name);
+                setValue("productDescription", response.description);
+                setValue("productModel", response.model);
+                setValue("productPrice", response.unitPrice);
+                setValue("productCount", response.unitsAvailable);
+                setValue("productCountry", response.producingCountry);
                 const fieldsTableSelectTitle = document.querySelector('.fields__table__select__title');
-                fieldsTableSelectTitle.innerText = response.data.supplier.name;
-                setChosenCompanyId(response.data.supplier.id)
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
+                fieldsTableSelectTitle.innerText = response.supplier.name;
+                setChosenCompanyId(response.supplier.id)
+            })
     }
-    const deleteCurrentProduct = async (id) => {
-        try {
-            const resp = await axios.delete(`http://localhost:39510/products/${id}`,
-                config,
-            ).then(response => {
-                if (response.status === 204) {
-                    getCompaniesData();
-                    setUpdatePage(true);
-
-                }
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
-
+    const deleteCurrentProduct = (id) => {
+        deleteData(`products/${id}`)
+            .then(response => {
+                getCompaniesData();
+                setUpdatePage(true);
+            })
     }
-    const saveProductImage = async () => {
-
-
+    const saveProductImage = () => {
         const formData = new FormData();
-
         formData.append('file', getValues('productImages')[0]);
-
-
-        console.log(getValues('productImages')[0].name)
-        try {
-            const resp = await axios.post(`http://localhost:39510/products/${chosenProductAddingImagesId}/images`,
-                formData,
-                {
-                    headers: {
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InN0cmluZyIsIm5iZiI6MTY4NDg2Mzc4NSwiZXhwIjoxNjg0OTUwMTg1LCJpYXQiOjE2ODQ4NjM3ODV9.LjMqlgLRnRkIlW-a3ncUoIxD2vbVmOXv7oc_dCJq4kk',
-                        'Content-Type': 'multipart/form-data',
-                    }
-                },
-            ).then(response => {
-                if (response.status === 200) {
-                    setCreateStatusImages(false);
-                    setCreateStatus(false);
-                }
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
+        postImages(`products/${chosenProductAddingImagesId}/images`, formData)
+            .then(response => {
+                setCreateStatusImages(false);
+                setCreateStatus(false);
+            })
     }
-    const saveProductInput = async () => {
-        try {
-            const resp = await axios.post('http://localhost:39510/products',
-                JSON.stringify({
-                    "name": getValues("productName"),
-                    "description": getValues("productDescription"),
-                    "model": getValues("productModel"),
-                    "unitPrice": Number(getValues("productPrice")),
-                    "unitsAvailable": Number(getValues("productCount")),
-                    "producingCountry": getValues("productCountry"),
-                    "supplierId": chosenCompanyId,
-                }),
-                config,
-            ).then(response => {
-                if (response.status === 200) {
-                    setCreateStatus(false)
-                }
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
+    const saveProductInput = () => {
+        postData("products", {
+            "name": getValues("productName"),
+            "description": getValues("productDescription"),
+            "model": getValues("productModel"),
+            "unitPrice": Number(getValues("productPrice")),
+            "unitsAvailable": Number(getValues("productCount")),
+            "producingCountry": getValues("productCountry"),
+            "supplierId": chosenCompanyId,
+        }).then(response => {
+            setCreateStatus(false)
+        });
     }
-    const putProductInput = async () => {
-        try {
-            const resp = await axios.put( `http://localhost:39510/products/${currentProductDataForEdit.id}`,
-                JSON.stringify({
-                    "name": getValues("productName"),
-                    "description": getValues("productDescription"),
-                    "model": getValues("productModel"),
-                    "unitPrice": Number(getValues("productPrice")),
-                    "unitsAvailable": Number(getValues("productCount")),
-                    "producingCountry": getValues("productCountry"),
-                    "supplierId": chosenCompanyId,
-                }),
-                config,
-            ).then(response => {
-                if (response.status === 200 || response.status === 204 ) {
-                    setEditTableStatus(false);
-                    setCreateStatus(false);
-                }
-            });
-        } catch (err) {
-            // Handle Error Here
-            console.error(err);
-        }
+    const putProductInput =  () => {
+        putData(`products/${currentProductDataForEdit.id}`, {
+            "name": getValues("productName"),
+            "description": getValues("productDescription"),
+            "model": getValues("productModel"),
+            "unitPrice": Number(getValues("productPrice")),
+            "unitsAvailable": Number(getValues("productCount")),
+            "producingCountry": getValues("productCountry"),
+            "supplierId": chosenCompanyId,
+        }).then(response => {
+            setEditTableStatus(false);
+            setCreateStatus(false);
+        });
+
     }
     const handleSaveProductDataControllers = () => {
         if (editTableStatus === false) {
             saveProductInput();
-        }else{
+        } else {
             putProductInput();
         }
     }
-
     const showDashboard = () => {
         const dashboardCreateForm = document.querySelector('.dashboard__create__form');
         const mainDashboardContent = document.querySelector('.main__dashboard__content');
+
         const dashboardAddingImages = document.querySelector('.dashboard__adding-images__form');
         if (createStatus) {
-            if(createStatusImages && createStatus){
+            if (createStatusImages && createStatus) {
                 mainDashboardContent.classList.add('hide')
                 dashboardAddingImages.classList.remove('hide');
-            }else{
+            } else {
                 dashboardCreateForm.classList.remove('hide');
                 mainDashboardContent.classList.add('hide')
             }
 
-        }  else {
-            if(createStatusImages === false && createStatus === false){
+        } else {
+            if (createStatusImages === false && createStatus === false) {
                 dashboardAddingImages.classList.add('hide');
                 mainDashboardContent.classList.remove('hide')
                 dashboardCreateForm.classList.add('hide');
-            }else{
+            } else {
                 dashboardCreateForm.classList.add('hide');
                 mainDashboardContent.classList.remove('hide')
             }
 
         }
     }
-
     const showCompanyDropdown = () => {
         const fieldsTableSelectDropdown = document.querySelector('.fields__table__select__dropdown');
         fieldsTableSelectDropdown.classList.toggle("hide")
@@ -208,7 +143,6 @@ function Products({config, editConfig}) {
 
     useEffect(() => {
         showDashboard();
-
         getCompaniesData();
         getProductsData()
     }, [createStatus, updatePage, createStatusImages])
@@ -285,7 +219,6 @@ function Products({config, editConfig}) {
 
                 </div>
             </div>
-
             <div className="dashboard__adding-images__form hide">
                 <div className="dashboard__create__form__title">
                     Adding Images for Product
@@ -386,7 +319,8 @@ function Products({config, editConfig}) {
                         </div>
 
                         <div className="field__btn__box">
-                            <div className="field__btn" onClick={handleSaveProductDataControllers}>{(setEditTableStatus === false) ? "Add" : "Edit"}</div>
+                            <div className="field__btn"
+                                 onClick={handleSaveProductDataControllers}>{(editTableStatus === false) ? "Add" : "Edit"}</div>
                             <div className="field__btn" onClick={() => {
                                 setCreateStatus(false);
                                 setEditTableStatus(false);
@@ -397,7 +331,6 @@ function Products({config, editConfig}) {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }
