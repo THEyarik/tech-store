@@ -8,10 +8,11 @@ let config = {
         'Content-Type': 'application/json',
     }
 }
-let postImagesConfig = {
+let imagesConfig = {
     headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`,
         'Content-Type': 'multipart/form-data',
+
     }
 }
 export async function postData(url, data) {
@@ -33,7 +34,7 @@ export async function postImages(url, data) {
     try {
         return await axios.post(`${baseUrl}/${url}`,
             data,
-            postImagesConfig,
+            imagesConfig,
         ).then(response => {
             if (response.status === 200) {
                 return response.status;
@@ -44,7 +45,30 @@ export async function postImages(url, data) {
         console.error(err);
     }
 }
-
+export async function getImageData(url) {
+    try {
+        return await axios.get(`${baseUrl}/${url}`,
+            imagesConfig,
+        ).then(response => {
+            return response.data;
+        });
+    } catch (err) {
+        // Handle Error Here
+        console.error(err);
+    }
+}
+export async function getImageDataProduct(url) {
+    try {
+        return await axios.get(`${baseUrl}/${url}`,
+            imagesConfig,
+        ).then(response => {
+            return response;
+        });
+    } catch (err) {
+        // Handle Error Here
+        console.error(err);
+    }
+}
 export async function getData(url) {
     try {
         return await axios.get(`${baseUrl}/${url}`,
