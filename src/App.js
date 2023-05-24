@@ -15,7 +15,6 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <ShopContextProvider>
-
                         <Navbar />
                         <Routes>
                             <Route path="/" element={<Shop />} />
