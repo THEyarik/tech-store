@@ -13,8 +13,8 @@ function LoginRegistration() {
             (res) => {
                 // setListClient(res.data)
                 console.log("Posting data :", res);
-                localStorage.setItem("token", JSON.stringify(res.data.token));
-                localStorage.setItem("username", JSON.stringify(res.data.username));
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("username", res.data.username);
             }
         )
     }

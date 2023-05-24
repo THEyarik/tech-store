@@ -1,8 +1,9 @@
 import React from 'react'
-
+// import "./Order.css"
 function Order(props) {
+    // console.log(props.orderItem);
   return (
-    <div>{props}</div>
+    <div clasName="orderItem">{props.orderItem.id}</div>
   )
 }
 

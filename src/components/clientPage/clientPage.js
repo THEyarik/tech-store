@@ -5,12 +5,13 @@ import Order from './Order/Order';
 
 function ClientPage() {
     let [oredrsClients, setOredrsClients] = useState([]);
+    console.log(`Bearer ${localStorage.getItem("token")}`);
     useEffect(() => {
         const fecthAllOrders = async () => {
             
             const res = await Axios.get("http://localhost:39510/orders/all", {
                 headers: {
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InN0cmluZyIsIm5iZiI6MTY4NDg2Mzc4NSwiZXhwIjoxNjg0OTUwMTg1LCJpYXQiOjE2ODQ4NjM3ODV9.LjMqlgLRnRkIlW-a3ncUoIxD2vbVmOXv7oc_dCJq4kk',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
                     'Content-Type': 'text/plain',
                 }
             })
