@@ -17,6 +17,7 @@ export const Shop = () => {
         })
     }, [])
     return (
+
         <div className="shop">
             <div className="shopTitle">
                 <h1> Tech Shop</h1>
@@ -25,7 +26,7 @@ export const Shop = () => {
             <div className="products">
                 {(productsData)? productsData.map((product) => (
                     <Product product={product} key={product.id}/>
-                )):[]}
+                )):''}
             </div>
         </div>
     );

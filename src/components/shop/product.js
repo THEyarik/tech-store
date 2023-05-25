@@ -12,24 +12,26 @@ export const Product = ({product}) => {
 
 
     useEffect(() => {
-        getImageDataProduct(`products/${product.id}/images/${product.images[0].id}`).then(blob=>{
-            const imageUrl = URL.createObjectURL(blob)
-            setProductPhoto(imageUrl);
-        })
-
+        if (product){
+            getImageDataProduct(`products/${product.id}/images/${product.images[0].id}`).then(blob=>{
+                const imageUrl = URL.createObjectURL(blob)
+                setProductPhoto(imageUrl);
+            })
+        }
     }, [])
     return (
         <div className="product">
-            <Link to={`/product/${product.id}`} className="product-link">
+
+            <Link to={`/product/${(product)? product.id:""}`} className="product-link">
                 <img className="product__image" src={`${productPhoto}`}/>
                 <div className="description">
                     <p>
-                        <b>{product.name}</b>
+                        <b>{(product)? product.name :""}</b>
                     </p>
-                    <p> ${product.unitPrice}</p>
+                    <p> ${(product)? product.unitPrice :" "}</p>
                 </div>
             </Link>
-            <button className="addToCartBttn" onClick={() => addToCart(product.id)}>
+            <button className="addToCartBttn" onClick={() => addToCart((product)? product.id:"")}>
                 Add To Cart {cartItemCount > 0 && <> ({cartItemCount})</>}
             </button>
         </div>
