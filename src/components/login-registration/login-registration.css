@@ -5,11 +5,20 @@
 
 }
 .login__registration__container{
-
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
 
+}
+.login__role{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: black;
+    z-index: 100;
+    cursor: pointer;
+    font-size: 30px;
 }
 .form-structor {
     height: 550px;

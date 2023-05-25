@@ -1,44 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { redirect  } from "react-router-dom";
+import {redirect, useNavigate} from "react-router-dom";
 
-import Axios from "axios"
 import "./login-registration.css";
+import {postData, postLoginData} from "../../utils/hooks/hooks";
+import {useForm} from "react-hook-form";
 
 function LoginRegistration() {
-    const [dateNewClient, setDateNewClient] = useState()
-    const [loginDate, setLoginDate] = useState()
-    const loginClient = async e => {
-        e.preventDefault();
-        const res = await Axios.post("http://localhost:39510/authentication/clientlogin", loginDate).then(
+    const [dateNewClient, setDateNewClient] = useState();
+    const [loginDate, setLoginDate] = useState();
+    const [role ,setRole] = useState('client')
+    const navigate = useNavigate()
+
+    const handleChangeRole = ()=>{
+        if(role === "client"){
+            setRole('admin')
+        }else
+            setRole("client")
+    }
+
+    const login =  (e) => {
+        e.preventDefault()
+        postLoginData(`authentication/${role}login` , loginDate).then(
             (res) => {
-                // setListClient(res.data)
-                console.log("Posting data :", res);
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("username", res.data.username);
-            }
-        )
+                navigate('/')
+            })
     }
+
     const loginChange = (e) => {
         setLoginDate(prev => ({ ...prev, [e.target.name]: e.target.value }))
-        console.log(loginDate)
+
     }
     const handleChange = (e) => {
         setDateNewClient(prev => ({ ...prev, [e.target.name]: e.target.value }))
-        console.log(dateNewClient)
+
     }
+
     const addNewClient = async e => {
         e.preventDefault();
-        //setDateNewClient(prev => ({ ...prev, userName: `${dateNewClient.email}`}))
-        console.log(dateNewClient);
-
-        if(dateNewClient.email == ""||dateNewClient.firstName == ""||dateNewClient.lastName == ""||dateNewClient.password == "")
-        console.log("dateNewClient");
+        if(dateNewClient.email == ""||dateNewClient.firstName == ""||dateNewClient.lastName == ""||dateNewClient.password == ""){
+            alert('Заповніть всі поля')
+        }
         else
-        await Axios.post("http://localhost:39510/clients/register", dateNewClient)
-            .then((res) => {
-                console.log("Posting data :", res);
-            })
-            .catch((err) => console.log(err));
+            postLoginData(`${role}s/register` , dateNewClient)
     }
 
     const loginHandlerButton = (e) => {
@@ -71,7 +76,11 @@ function LoginRegistration() {
 
             <div className="login__registration">
                 <div className="container login__registration__container ">
+
                     <div className="form-structor">
+                        <div className="login__role" onClick={handleChangeRole}>
+                            {(role==="client")? "as Client": "as Admin"}
+                        </div>
                         <form action='#'>
                             <div className="signup" onClick={signupHandlerButton}>
                                 <h2 className="form-title" id="signup"><span>or</span>Sign up</h2>
@@ -96,7 +105,7 @@ function LoginRegistration() {
                                         <input type="password" className="input" placeholder="Password"
                                             name="password" onChange={loginChange} />
                                     </div>
-                                    <button className="submit-btn" onClick={loginClient}>Log in</button>
+                                    <button className="submit-btn" onClick={login}>Log in</button>
                                 </div>
                             </div>
                         </form>
