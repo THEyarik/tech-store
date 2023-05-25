@@ -4,8 +4,8 @@ import axios, {get} from "axios";
 import {useForm} from "react-hook-form";
 import {Cart} from "../cart/cart";
 import {ProductDetails} from "../productDetails/productDetails";
-import Companies from "./companies/companies";
-import Products from "./products/products";
+import AdminManageCompanies from "./companies/adminManageCompanies";
+import AdminManageProducts from "./products/adminManageProducts";
 
 
 function Admin() {
@@ -35,9 +35,9 @@ function Admin() {
 
                 </div>
                 {
-                    (currentTemplate === "companies") ? <Companies /> :
+                    (currentTemplate === "companies") ? <AdminManageCompanies /> :
 
-                        (currentTemplate === "products") ? <Products /> : ""
+                        (currentTemplate === "products") ? <AdminManageProducts /> : ""
                 }
 
 

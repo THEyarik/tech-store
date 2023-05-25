@@ -68,9 +68,11 @@
 .dashboard__list__item__content{
     display: flex;
     column-gap: 30px;
+    align-items: center;
 }
 .dashboard__list__item__action{
     cursor: pointer;
+
 }
 .dashboard__create__form{
     display: flex;
@@ -89,6 +91,7 @@
 .dashboard__list__item__action__box{
     display: flex;
     column-gap: 10px;
+    align-items: center;
 }
 .fields__table{
     display: flex;
@@ -153,9 +156,22 @@
 .company__select{
     cursor: pointer;
 }
-.dashboard__adding-images__form{
+.dashboard__manage-images__form{
+    padding-top: 50px;
+}
+.dashboard__manage-documents__form{
     padding-top: 50px;
 }
 .dashboard__create__form__body{
     padding-top: 30px;
+}
+.dashboard__img{
+    max-width: 300px;
+    max-height: 300px;
+    width: 100%;
+    height: 100%;
+}
+.document__link{
+    color: white;
+    text-decoration: none;
 }

@@ -49,7 +49,7 @@ export async function postImages(url, data) {
 }
 
 
-export async function getImageDataProduct(url) {
+export async function getFileDataProduct(url) {
    return  await fetch(`${baseUrl}/${url}`, imagesConfig)
         .then(response => {
             return response.blob()

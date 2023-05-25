@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
 import "../admin.css"
-import {postData, putData, getData,deleteData} from "../../../utils/hooks/hooks";
+import {postData, putData, getData, deleteData} from "../../../utils/hooks/hooks";
 
 
-function Companies() {
+function AdminManageCompanies() {
 
     const [companiesData, setCompaniesData] = useState([]);
     const [createStatus, setCreateStatus] = useState(false);
@@ -12,25 +11,28 @@ function Companies() {
     const [currentCompanyDataForEdit, setCurrentCompanyDataForEdit] = useState([]);
     const [companiesInput, setCompaniesInput] = useState((currentCompanyDataForEdit.name) ? currentCompanyDataForEdit.name : "");
     const [editTableStatus, setEditTableStatus] = useState(false);
+    const cleanInputValues = () => {
+        setCompaniesInput("")
+    }
 
     const handleInputCompaniesInput = (e) => {
         setCompaniesInput(e.target.value)
     }
-    const getCompaniesData =  () => {
+    const getCompaniesData = () => {
         getData("companies/all").then(res => {
-           setCompaniesData(res)
+            setCompaniesData(res)
         })
 
     }
     const deleteCurrentCompany = (id) => {
         deleteData(`companies/${id}`)
             .then(response => {
-                    getCompaniesData();
-                    setUpdatePage(true);
+                getCompaniesData();
+                setUpdatePage(true);
             });
 
     }
-    const saveCompaniesData =  () => {
+    const saveCompaniesData = () => {
         postData("companies", {"name": companiesInput}).then(res => {
             if (res === 200) {
                 getCompaniesData();
@@ -38,8 +40,8 @@ function Companies() {
             }
         })
     }
-    const putCompaniesData =  () => {
-        putData(`companies/${currentCompanyDataForEdit.id}`,  {"name": companiesInput }).then(response => {
+    const putCompaniesData = () => {
+        putData(`companies/${currentCompanyDataForEdit.id}`, {"name": companiesInput}).then(response => {
             if (response === 200) {
                 getCompaniesData();
                 setCreateStatus(false)
@@ -57,14 +59,14 @@ function Companies() {
     }
     const getCurrentCompanyDataForEdit = (id) => {
         getData(`companies/${Number(id)}`)
-            .then(response=>{
+            .then(response => {
                 console.log(response)
                 setCurrentCompanyDataForEdit(response);
 
                 setCompaniesInput(response.name)
             })
 
-        }
+    }
     const showDashboard = () => {
         if (createStatus === true) {
             const dashboardCreateForm = document.querySelector('.dashboard__create__form');
@@ -78,6 +80,7 @@ function Companies() {
             mainDashboardContent.classList.remove('hide')
         }
     }
+
     useEffect(() => {
         getCompaniesData();
         showDashboard()
@@ -157,9 +160,13 @@ function Companies() {
                         </div>
                         <div className="field__btn__box">
                             <div className="field__btn"
-                                 onClick={handleSaveCompaniesDataControllers}>{(editTableStatus === false) ? "Add" : "Edit"} </div>
+                                 onClick={() => {
+                                     handleSaveCompaniesDataControllers();
+                                     cleanInputValues();
+                                 }}>{(editTableStatus === false) ? "Add" : "Edit"} </div>
                             <div className="field__btn" onClick={() => {
-                                setCreateStatus(false)
+                                setCreateStatus(false);
+                                cleanInputValues();
                             }}>Cancel
                             </div>
                         </div>
@@ -172,4 +179,4 @@ function Companies() {
     );
 }
 
-export default Companies;
+export default AdminManageCompanies;

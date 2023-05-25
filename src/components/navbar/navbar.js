@@ -5,7 +5,7 @@ import "./navbar.css";
 
 export const Navbar = () => {
   const location = useLocation();
-
+  const userName = localStorage.getItem("username");
   return (
     <div className="navbar">
       <div className="logo">
@@ -22,7 +22,7 @@ export const Navbar = () => {
           <ShoppingCart size={32} />
         </Link>
         <Link to="/login"  className={location.pathname === "/login" ? "active-link" : ""}>
-          Login 
+            {(userName)?userName:"Login"}
         </Link>
       </div>
     </div>
