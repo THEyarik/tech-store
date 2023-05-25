@@ -2,24 +2,25 @@ import React, { useEffect, useState } from 'react'
 import Axios from "axios"
 import "./clientPage.css";
 import Order from './Order/Order';
+import { getData } from '../../utils/hooks/hooks';
 
 function ClientPage() {
     let [oredrsClients, setOredrsClients] = useState([]);
-    console.log(`Bearer ${localStorage.getItem("token")}`);
+    const [idClient, setIdClient] = useState();
+    // console.log(`Bearer ${localStorage.getItem("token")}`);
+
     useEffect(() => {
-        const fecthAllOrders = async () => {
-            
-            const res = await Axios.get("http://localhost:39510/orders/all", {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
-                    'Content-Type': 'text/plain',
-                }
-            })
-            setOredrsClients(res.data);
-        }
-        fecthAllOrders()
+        getData(`clients/mail/${localStorage.getItem("username")}`)
+                .then(response => {
+                    getData(`orders/clients/${response.id}`)
+                    .then(response => {
+                        setOredrsClients(response.data);
+                        console.log(response.data);
+                    })
+                })
+    
+
     }, [])
-    console.log(oredrsClients[0]);
     return (
         <section className="client">
             <div className="clientContainer">
@@ -30,7 +31,7 @@ function ClientPage() {
                 <div className="orders">
                     <h1>All orders </h1>
                     {
-                        oredrsClients.map((item,index)=><Order key={index} orderItem={item} />)
+                        // oredrsClients.map((item, index) => <Order key={index} orderItem={item} />)
                     }
                 </div>
             </div>
