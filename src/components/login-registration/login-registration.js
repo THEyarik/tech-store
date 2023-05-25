@@ -9,7 +9,7 @@ function LoginRegistration() {
     const [loginDate, setLoginDate] = useState()
     const loginClient = async e => {
         e.preventDefault();
-        const res = await Axios.post("http://localhost:39510/authentication/login", loginDate).then(
+        const res = await Axios.post("http://localhost:39510/authentication/clientlogin", loginDate).then(
             (res) => {
                 // setListClient(res.data)
                 console.log("Posting data :", res);
@@ -28,15 +28,15 @@ function LoginRegistration() {
     }
     const addNewClient = async e => {
         e.preventDefault();
+        //setDateNewClient(prev => ({ ...prev, userName: `${dateNewClient.email}`}))
+        console.log(dateNewClient);
 
-        let k = Object.values(dateNewClient.lastName
-            , dateNewClient.name, dateNewClient.password)
-        if (k[0] == "" || k[1] == "" || k[2] == "")
-            return;
+        if(dateNewClient.email == ""||dateNewClient.firstName == ""||dateNewClient.lastName == ""||dateNewClient.password == "")
+        console.log("dateNewClient");
+        else
         await Axios.post("http://localhost:39510/clients/register", dateNewClient)
             .then((res) => {
                 console.log("Posting data :", res);
-
             })
             .catch((err) => console.log(err));
     }
