@@ -48,18 +48,6 @@ export async function postImages(url, data) {
     }
 }
 
-export async function getImageData(url) {
-    try {
-        return await axios.get(`${baseUrl}/${url}`,
-            imagesConfig,
-        ).then(response => {
-            return response.data;
-        });
-    } catch (err) {
-        // Handle Error Here
-        console.error(err);
-    }
-}
 
 export async function getImageDataProduct(url) {
    return  await fetch(`${baseUrl}/${url}`, imagesConfig)
@@ -106,6 +94,22 @@ export async function putData(url, data) {
         ).then(response => {
             if (response.status === 200 || response.status === 204) {
                 return response.status;
+            }
+        });
+    } catch (err) {
+        // Handle Error Here
+        console.error(err);
+    }
+}
+
+export async function postLoginData(url, data) {
+    try {
+        return await axios.post(`${baseUrl}/${url}`,
+            JSON.stringify(data),
+            config,
+        ).then(response => {
+            if (response.status === 200) {
+                return response;
             }
         });
     } catch (err) {
