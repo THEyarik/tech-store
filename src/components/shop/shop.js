@@ -23,9 +23,9 @@ export const Shop = () => {
             </div>
 
             <div className="products">
-                {productsData.map((product) => (
+                {(productsData)? productsData.map((product) => (
                     <Product product={product} key={product.id}/>
-                ))}
+                )):[]}
             </div>
         </div>
     );

@@ -11,10 +11,11 @@ let config = {
 let imagesConfig = {
     headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`,
-        'Content-Type': 'multipart/form-data',
+
 
     }
 }
+
 export async function postData(url, data) {
     try {
         return await axios.post(`${baseUrl}/${url}`,
@@ -30,6 +31,7 @@ export async function postData(url, data) {
         console.error(err);
     }
 }
+
 export async function postImages(url, data) {
     try {
         return await axios.post(`${baseUrl}/${url}`,
@@ -45,6 +47,7 @@ export async function postImages(url, data) {
         console.error(err);
     }
 }
+
 export async function getImageData(url) {
     try {
         return await axios.get(`${baseUrl}/${url}`,
@@ -57,18 +60,16 @@ export async function getImageData(url) {
         console.error(err);
     }
 }
+
 export async function getImageDataProduct(url) {
-    try {
-        return await axios.get(`${baseUrl}/${url}`,
-            imagesConfig,
-        ).then(response => {
-            return response;
-        });
-    } catch (err) {
-        // Handle Error Here
-        console.error(err);
-    }
+   return  await fetch(`${baseUrl}/${url}`, imagesConfig)
+        .then(response => {
+            return response.blob()
+        })
+        .catch(error => console.error(error));
+
 }
+
 export async function getData(url) {
     try {
         return await axios.get(`${baseUrl}/${url}`,
@@ -97,7 +98,7 @@ export async function deleteData(url) {
     }
 }
 
-export async function putData(url,data) {
+export async function putData(url, data) {
     try {
         return await axios.put(`${baseUrl}/${url}`,
             JSON.stringify(data),
