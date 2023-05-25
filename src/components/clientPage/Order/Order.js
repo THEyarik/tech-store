@@ -1,5 +1,5 @@
 import React from 'react'
-// import "./Order.css"
+import "./Order.css"
 function Order(props) {
     // console.log(props.orderItem);
   return (

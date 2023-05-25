@@ -6,7 +6,6 @@ import { getData } from '../../utils/hooks/hooks';
 
 function ClientPage() {
     let [oredrsClients, setOredrsClients] = useState([]);
-    const [idClient, setIdClient] = useState();
     // console.log(`Bearer ${localStorage.getItem("token")}`);
 
     useEffect(() => {
@@ -14,8 +13,7 @@ function ClientPage() {
                 .then(response => {
                     getData(`orders/clients/${response.id}`)
                     .then(response => {
-                        setOredrsClients(response.data);
-                        console.log(response.data);
+                        setOredrsClients(response);
                     })
                 })
     
@@ -31,7 +29,7 @@ function ClientPage() {
                 <div className="orders">
                     <h1>All orders </h1>
                     {
-                        // oredrsClients.map((item, index) => <Order key={index} orderItem={item} />)
+                        oredrsClients.map((item, index) => <Order key={index} orderItem={item} />)
                     }
                 </div>
             </div>

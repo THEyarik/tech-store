@@ -24,7 +24,7 @@ function LoginRegistration() {
             (res) => {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("username", res.data.username);
-                navigate('/')
+                navigate(`/${role}`)
             })
     }
 
