@@ -8,14 +8,30 @@ let config = {
         'Content-Type': 'application/json',
     }
 }
+let configtext = {
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}`,
+    }
+}
 let imagesConfig = {
     headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`,
-
-
     }
 }
-
+export async function postDataWithoutPar(url) {
+    console.log(configtext);
+        return await axios.post(`${baseUrl}/${url}`,
+            configtext
+        ).then(response => {
+            if (response.status === 200) {
+                return response.status;
+            }
+            if (response.status === 401) {
+                return "Не авторезаваний";
+            }
+        });
+ 
+}
 export async function postData(url, data) {
     try {
         return await axios.post(`${baseUrl}/${url}`,
@@ -50,7 +66,7 @@ export async function postImages(url, data) {
 
 
 export async function getFileDataProduct(url) {
-   return  await fetch(`${baseUrl}/${url}`, imagesConfig)
+    return await fetch(`${baseUrl}/${url}`, imagesConfig)
         .then(response => {
             return response.blob()
         })

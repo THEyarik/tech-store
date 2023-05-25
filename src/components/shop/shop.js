@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {Product} from "./product";
 import "./shop.css";
 import {useEffect, useState} from "react";
 import {getData} from "../../utils/hooks/hooks";
+import {ShopContext} from "../context/shop-context";
 
 
 export const Shop = () => {

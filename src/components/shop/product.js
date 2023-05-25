@@ -1,19 +1,19 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {ShopContext} from "../context/shop-context";
-import {getImageDataProduct} from "../../utils/hooks/hooks";
+import {getFileDataProduct} from "../../utils/hooks/hooks";
 
 
 export const Product = ({product}) => {
 
-    const {addToCart, cartItems} = useContext(ShopContext);
+    const {addToCart, cartItems,addNewToCart} = useContext(ShopContext);
     const [productPhoto, setProductPhoto] = useState("");
     const cartItemCount = cartItems[product.id];
-
-
+    
     useEffect(() => {
+        addNewToCart(product.id)
         if (product){
-            getImageDataProduct(`products/${product.id}/images/${product.images[0].id}`).then(blob=>{
+            getFileDataProduct(`products/${product.id}/images/${product.images[0].id}`).then(blob=>{
                 const imageUrl = URL.createObjectURL(blob)
                 setProductPhoto(imageUrl);
             })
