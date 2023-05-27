@@ -3,8 +3,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
-
+.empty__title{
+  color: white;
+  font-size: 30px;
+}
 .cartItem {
   width: 700px;
   height: 250px;
@@ -98,4 +102,19 @@
   justify-content: space-between;
   margin-top: 20px;
   width: 340px;
+}
+.product__image{
+  max-width: 400px;
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.delete_product{
+
+}
+.delete_product__icon{
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 }

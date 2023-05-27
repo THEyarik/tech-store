@@ -1,40 +1,72 @@
-import React, { useEffect, useState } from 'react'
-import Axios from "axios"
+import React, {} from 'react'
 import "./clientPage.css";
-import Order from './Order/Order';
-import { getData } from '../../utils/hooks/hooks';
+import {deleteData} from "../../utils/hooks/hooks";
+import {Link, useNavigate} from "react-router-dom";
 
-function ClientPage() {
-    let [oredrsClients, setOredrsClients] = useState([]);
-    // console.log(`Bearer ${localStorage.getItem("token")}`);
+function ClientPage({role}) {
 
-    useEffect(() => {
-        getData(`clients/mail/${localStorage.getItem("username")}`)
-                .then(response => {
-                    getData(`orders/clients/${response.id}`)
-                    .then(response => {
-                        setOredrsClients(response);
-                    })
-                })
-    
+    const userInfo =JSON.parse(localStorage.getItem("userInfo")) ;
+    const navigate = useNavigate();
 
-    }, [])
+    const logout = ()=>{
+        localStorage.removeItem("userInfo");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("orderId");
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        navigate("/login")
+    }
+    const deleteAccount = ()=>{
+        deleteData(`clients/delete`).then(res=>{
+
+            logout();
+        })
+    }
+
     return (
-        <section className="client">
-            <div className="clientContainer">
-                <div className="dataClient">
-                    <div className="clientName">HUIDSH</div>
-                    <div className="email">FROREHGIERH</div>
+
+        <div className="client__page">
+
+            <div className="side__bar">
+                <p className="side__bar__title">
+                    Personal Information
+                </p>
+                <p className="side__bar_logout" onClick={logout}>
+                    Logout
+                </p>
+                {(role === "admin")?
+                    <Link className="side__bar_link "to={"/admin"}>Admin panel</Link>
+                    : <p className="side__bar_logout" onClick={deleteAccount}>
+                        Delete account
+                    </p>
+
+                }
+
+            </div>
+            <div className="personal__info">
+                <div className="personal__info__item">
+                    <p className="personal__info__text">
+                        Name:
+                    </p>
+                    <p className="personal__info__text">
+                        {userInfo.username}
+                    </p>
                 </div>
-                <div className="orders">
-                    <h1>All orders </h1>
-                    {
-                        oredrsClients.map((item, index) => <Order key={index} orderItem={item} />)
-                    }
+                <div className="personal__info__item">
+                    <p className="personal__info__text">
+                        Role:
+                    </p>
+                    <p className="personal__info__text">
+                        {role}
+                    </p>
                 </div>
             </div>
-        </section>
+
+
+        </div>
     )
+
+
 }
 
 export default ClientPage

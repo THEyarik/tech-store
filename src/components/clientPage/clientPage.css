@@ -1,18 +1,42 @@
-.clientContainer {
+.client__page{
+    color: white;
+    display: flex;
+    column-gap: 30px;
+
+    height: 90vh;
+    overflow: hidden;
+}
+.side__bar__title{
+    font-size: 30px;
+}
+.side__bar_logout{
+    font-size: 25px;
+    padding-top: 100px;
+    cursor: pointer;
+}
+.side__bar{
+    border-right: 1px solid #ffffff;
+    padding: 50px 30px 0 50px;
+}
+.personal__info{
+    padding-top: 50px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    width: 100%;
-    color: #eee;
+    row-gap: 30px;
+    font-size:30px;
 }
-
-.dataClient {
-    padding: 20px;
+.personal__info__item{
+    display: flex;
+    column-gap: 15px;
 }
-
-.orders {
-    padding: 20px;
+.admin__redirect{
+    color: white;
+    text-decoration: none;
 }
-.orders h1 {
-    font-size: 40px;
+.side__bar_link{
+    font-size: 25px;
+    color: white;
+    text-decoration: none;
+    padding-top: 30px;
+    display: block;
 }

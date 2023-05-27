@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const baseUrl = "http://localhost:39510";
+const orderId = localStorage.getItem('orderId');
 
 let config = {
     headers: {
@@ -23,7 +24,7 @@ export async function postData(url, data) {
             config,
         ).then(response => {
             if (response.status === 200) {
-                return response.status;
+                return response;
             }
         });
     } catch (err) {
@@ -50,7 +51,7 @@ export async function postImages(url, data) {
 
 
 export async function getFileDataProduct(url) {
-   return  await fetch(`${baseUrl}/${url}`, imagesConfig)
+    return await fetch(`${baseUrl}/${url}`, imagesConfig)
         .then(response => {
             return response.blob()
         })
@@ -63,7 +64,10 @@ export async function getData(url) {
         return await axios.get(`${baseUrl}/${url}`,
             config,
         ).then(response => {
-            return response.data;
+            if (response.status === 200) {
+                return response.data;
+            }
+
         });
     } catch (err) {
         // Handle Error Here
@@ -76,7 +80,7 @@ export async function deleteData(url) {
         return await axios.delete(`${baseUrl}/${url}`,
             config,
         ).then(response => {
-            if (response.status === 204) {
+            if (response.status === 204 || response.status === 200) {
                 return response.status
             }
         });
@@ -102,21 +106,31 @@ export async function putData(url, data) {
     }
 }
 
-export async function postLoginData(url, data) {
-    try {
-        return await axios.post(`${baseUrl}/${url}`,
-            JSON.stringify(data),
-            config,
-        ).then(response => {
-            if (response.status === 200) {
-                return response;
-            }
-        });
-    } catch (err) {
-        // Handle Error Here
-        console.error(err);
+export const addItemToOrder = (product) => {
+    if (orderId === null) {
+        postData(`orders/create`, {}).then(res => {
+            postData(`orders/${res.data.id}/items`, {
+                "productId": product.id,
+                "qty": 1,
+                "comment": product.description
+            })
+            localStorage.setItem("orderId", res.data.id);
+            localStorage.setItem("userId", res.data.clientId);
+        })
+    } else {
+        postData(`orders/${orderId}/items`, {
+            "productId": product.id,
+            "qty": 1,
+            "comment": product.description
+        })
     }
 }
+
+
+
+
+
+
 
 
 

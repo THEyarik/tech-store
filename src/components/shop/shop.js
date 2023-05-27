@@ -3,18 +3,19 @@ import React from "react";
 import {Product} from "./product";
 import "./shop.css";
 import {useEffect, useState} from "react";
-import {getData} from "../../utils/hooks/hooks";
+import {getData, postData} from "../../utils/hooks/hooks";
 
 
 export const Shop = () => {
 
     const [productsData, setProductsData] = useState([]);
 
-
     useEffect(() => {
+
         getData("products/all").then(res => {
             setProductsData(res)
         })
+
     }, [])
     return (
 

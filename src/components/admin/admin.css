@@ -139,10 +139,16 @@
     cursor: pointer;
 }
 .dashboard__list__item__name{
-    width: 210px;
+   max-width:300px;
+    width: 100%;
+    min-width: 300px;
+}
+.dashboard__list__item__name__orders{
+    width: 500px;
 }
 .dashboard__list__item__id{
-    width: 100px;
+    max-width: 150px;
+    width: 100%;
 }
 .fields__table__select__dropdown{
     position: absolute;

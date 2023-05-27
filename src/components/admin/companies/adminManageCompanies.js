@@ -3,7 +3,7 @@ import "../admin.css"
 import {postData, putData, getData, deleteData} from "../../../utils/hooks/hooks";
 
 
-function AdminManageCompanies() {
+function AdminManageCompanies({showDashboard}) {
 
     const [companiesData, setCompaniesData] = useState([]);
     const [createStatus, setCreateStatus] = useState(false);
@@ -67,23 +67,11 @@ function AdminManageCompanies() {
             })
 
     }
-    const showDashboard = () => {
-        if (createStatus === true) {
-            const dashboardCreateForm = document.querySelector('.dashboard__create__form');
-            const mainDashboardContent = document.querySelector('.main__dashboard__content');
-            dashboardCreateForm.classList.remove('hide');
-            mainDashboardContent.classList.add('hide')
-        } else {
-            const dashboardCreateForm = document.querySelector('.dashboard__create__form');
-            const mainDashboardContent = document.querySelector('.main__dashboard__content');
-            dashboardCreateForm.classList.add('hide');
-            mainDashboardContent.classList.remove('hide')
-        }
-    }
+
 
     useEffect(() => {
         getCompaniesData();
-        showDashboard()
+        showDashboard(createStatus)
     }, [createStatus, updatePage, editTableStatus])
 
     return (
