@@ -49,30 +49,29 @@ export const Cart = () => {
 
     return (
         <div className="cart">
-            <div>
-                <h1>Your Cart Items</h1>
-            </div>
+
             <div className="cart">
                 {
                     productsData.sort(compare).map(product => {
                         return (<CartItem product={product} key={randomId()} getUpdatePageState={getUpdatePageState} activeOrderId={activeOrderId}/>)
                     })
                 }
-            </div>
-            {(productsData.length > 0) ? (
-                <div className="checkout">
+                {(productsData.length > 0) ? (
+                    <div className="checkout">
 
-                    <div className="buttons">
-                        <button onClick={() => navigate("/")}>Continue Shopping</button>
-                        <button >
-                            Checkout
-                        </button>
+                        <div className="buttons">
+                            <button onClick={() => navigate("/")}>Continue Shopping</button>
+                            <button >
+                                Checkout
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-            ) : (
-                <h1 className="empty__title"> Your Shopping Cart is Empty</h1>
-            )}
+                ) : (
+                    <h1 className="empty__title"> Your Shopping Cart is Empty</h1>
+                )}
+            </div>
+
         </div>
     );
 };

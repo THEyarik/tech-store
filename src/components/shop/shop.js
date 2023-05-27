@@ -21,7 +21,7 @@ export const Shop = () => {
 
         <div className="shop">
             <div className="shopTitle">
-                <h1> Tech Shop</h1>
+                <h1> Products:</h1>
             </div>
 
             <div className="products">

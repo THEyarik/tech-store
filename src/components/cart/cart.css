@@ -4,10 +4,13 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  min-height: 500px;
 }
 .empty__title{
   color: white;
   font-size: 30px;
+  display: flex;
+  align-items: start;
 }
 .cartItem {
   width: 700px;
