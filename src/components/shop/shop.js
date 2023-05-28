@@ -3,10 +3,10 @@ import React from "react";
 import {Product} from "./product";
 import "./shop.css";
 import {useEffect, useState} from "react";
-import {getData, postData} from "../../utils/hooks/hooks";
+import {getData} from "../../utils/hooks/hooks";
 
 
-export const Shop = () => {
+export const Shop = ({getShowModalState ,role}) => {
 
     const [productsData, setProductsData] = useState([]);
 
@@ -26,7 +26,7 @@ export const Shop = () => {
 
             <div className="products">
                 {(productsData)? productsData.map((product) => (
-                    <Product product={product} key={product.id}/>
+                    <Product product={product} key={product.id} getShowModalState={getShowModalState} role={role}/>
                 )):''}
             </div>
         </div>

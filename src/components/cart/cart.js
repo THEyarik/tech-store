@@ -3,27 +3,31 @@ import {CartItem} from "./cart-item";
 import {useNavigate} from "react-router-dom";
 
 import "./cart.css";
-import {getData, putData} from "../../utils/hooks/hooks";
+import {getData} from "../../utils/hooks/hooks";
 
 export const Cart = () => {
     const [productsData, setProductsData] = useState([]);
     const navigate = useNavigate();
-    const activeOrderId = localStorage.getItem("orderId");
+    const activeUserId = localStorage.getItem("userId");
 
     const getAllOrdersData = () => {
-        if(activeOrderId){
-            getData(`orders/${activeOrderId}`).then(res => {
-                res.items.forEach(product => {
-                    getData(`products/${product.productId}`).then(currentProduct => {
-                        currentProduct.itemId = product.id;
-                        currentProduct.itemQty = product.qty;
-                        currentProduct.orderItemsAmount = res.items.length;
-                        setProductsData((prevProduct) => [...prevProduct, currentProduct]);
+        if( activeUserId){
+            getData(`orders/clients/${activeUserId}`).then(res =>{
+                res.map(order =>{
+                    getData(`orders/${order.id}`).then(res => {
+                        res.items.forEach(product => {
+                            getData(`products/${product.productId}`).then(currentProduct => {
+                                currentProduct.orderId = order.id;
+                                currentProduct.itemId = product.id;
+                                currentProduct.itemQty = product.qty;
+                                currentProduct.orderItemsAmount = res.items.length;
+                                setProductsData((prevProduct) => [...prevProduct, currentProduct]);
+                            })
+                        })
                     })
                 })
             })
         }
-
     }
     const getUpdatePageState = (boolean) => {
         if (boolean === true) {
@@ -34,7 +38,7 @@ export const Cart = () => {
     const randomId = () => {
         return Math.round(Math.random() * (1000 - 1) + 1);
     }
-    function compare(a, b) {
+    function sortItems(a, b) {
         if (a.id < b.id) {
             return -1;
         }
@@ -43,17 +47,17 @@ export const Cart = () => {
         }
         return 0;
     }
+
     useEffect(() => {
         getAllOrdersData();
     }, [])
 
     return (
         <div className="cart">
-
             <div className="cart">
                 {
-                    productsData.sort(compare).map(product => {
-                        return (<CartItem product={product} key={randomId()} getUpdatePageState={getUpdatePageState} activeOrderId={activeOrderId}/>)
+                    productsData.sort(sortItems).map(product => {
+                        return (<CartItem product={product} key={randomId()} getUpdatePageState={getUpdatePageState}/>)
                     })
                 }
                 {(productsData.length > 0) ? (
@@ -71,7 +75,6 @@ export const Cart = () => {
                     <h1 className="empty__title"> Your Shopping Cart is Empty</h1>
                 )}
             </div>
-
         </div>
     );
 };

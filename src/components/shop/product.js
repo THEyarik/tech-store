@@ -1,13 +1,20 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {addItemToOrder, getFileDataProduct} from "../../utils/hooks/hooks";
 
 
-export const Product = ({product}) => {
+export const Product = ({product ,getShowModalState,role}) => {
 
     const [productPhoto, setProductPhoto] = useState("");
+    const userInfo =JSON.parse(localStorage.getItem("userInfo")) ;
 
-
+    const checkIsLoginForAddItemOrder = (product) =>{
+        if(userInfo === null){
+            getShowModalState(true);
+        }else{
+            addItemToOrder(product)
+        }
+    }
 
     useEffect(() => {
         if (product.images.length !== 0){
@@ -20,18 +27,23 @@ export const Product = ({product}) => {
     return (
         <div className="product">
 
-            <Link to={`/product/${(product)? product.id:""}`} className="product-link">
+            <Link to={(userInfo === null)?'#':`/product/${(product)? product.id:""}`} className="product-link" onClick={()=>{
+                (userInfo === null)?getShowModalState(true): getShowModalState(false)
+            }}>
                 <img className="product__image" src={`${productPhoto}`}/>
                 <div className="description">
-                    <p>
-                        <b>{(product)? product.name :""}</b>
-                    </p>
+                    <div>
+                        <p>{(product)? product.name :""}</p>
+                    </div>
                     <p> ${(product)? product.unitPrice :" "}</p>
                 </div>
             </Link>
-            <button className="addToCartBttn" onClick={() => addItemToOrder(product)}>
-                Add To Cart
-            </button>
+            {(role !== "admin")?
+                <button className="addToCartBttn" onClick={() => checkIsLoginForAddItemOrder(product)}>
+                    Add To Cart
+                </button>: ""
+            }
+
         </div>
     );
 };

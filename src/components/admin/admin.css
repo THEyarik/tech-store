@@ -2,12 +2,13 @@
     display: flex;
     width: 100%;
     overflow: hidden;
+    min-height: 100vh;
 }
 .admin__left__side-bar{
     padding: 50px 0 0 30px;
     width: 15%;
-    height: 100vh;
-    background: rgb(19, 19, 19);
+
+    height:100vh;
     display: flex;
     flex-direction: column;
     row-gap: 30px;

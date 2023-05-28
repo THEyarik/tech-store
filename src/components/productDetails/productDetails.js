@@ -6,19 +6,21 @@ import 'swiper/css';
 import "swiper/css/navigation";
 import {Navigation} from "swiper";
 
-import {addItemToOrder, getData, getFileDataProduct, postData} from "../../utils/hooks/hooks";
+import {addItemToOrder, getData, getFileDataProduct} from "../../utils/hooks/hooks";
 
-export const ProductDetails = () => {
+export const ProductDetails = ({getShowModalState,role}) => {
     const {id} = useParams();
     const [productData, setProductData] = useState([]);
     const [productDocument, setProductDocument] = useState();
     const [productImage, setProductsImage] = useState([]);
+    const userInfo =JSON.parse(localStorage.getItem("userInfo")) ;
 
     const getAmountImageForCurrentProduct = (id) => {
         getData(`products/${id}`).then(res => {
             getAllImageForCurrentProduct(res.images, id)
         })
     }
+
     const getAllImageForCurrentProduct = (imageArray, id) => {
         setProductsImage([]);
         if (imageArray.length !== 0) {
@@ -47,6 +49,13 @@ export const ProductDetails = () => {
         })
     }
 
+    const checkIsLoginForAddItemOrder = (product) =>{
+        if(userInfo === null){
+            getShowModalState(true);
+        }else{
+            addItemToOrder(product)
+        }
+    }
 
     useEffect(() => {
         getFileData();
@@ -89,10 +98,12 @@ export const ProductDetails = () => {
                             <a className="addToCartBttn" href={productDocument}>Download document</a>
                             : ""
                         }
+                        {(role !== "admin")?
+                            <button className="addToCartBttn" onClick={() => checkIsLoginForAddItemOrder(productData)}>
+                                Add To Cart
+                            </button>: ""
+                        }
 
-                        <button className="addToCartBttn" onClick={() => addItemToOrder(productData)}>
-                            Add To Cart
-                        </button>
                     </div>
                 </div>
             </div>

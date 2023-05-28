@@ -16,16 +16,6 @@ const footer = () => {
                             <FaGoogle size={30} color="#DB4437" />
                         </a>
                     </li>
-                    {/* <li>
-            <a href="#">
-              <FaInstagram size={30} color="#C13584" />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <FaInstagram size={30} color="#C13584" />
-            </a>
-          </li> */}
                     <li>
                         <a href="#">
                             <FaInstagram size={30} color="#C13584" />

@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from "react";
 import {deleteData, getFileDataProduct, postData, putData} from "../../utils/hooks/hooks";
 
-export const CartItem = ({product, getUpdatePageState,activeOrderId}) => {
+export const CartItem = ({product, getUpdatePageState}) => {
 
     const [productPhoto, setProductPhoto] = useState("");
     const [productCount, setProductCount] = useState(product.itemQty);
 
     const deleteProducts = (productInfo) => {
-        deleteData(`orders/${activeOrderId}/items/${productInfo.itemId}`).then(res => {
+        deleteData(`orders/${productInfo.orderId}/items/${productInfo.itemId}`).then(res => {
             getUpdatePageState(true);
         })
 
     }
     const addItemQty = (productInfo) => {
-        putData(`orders/${activeOrderId}/items/${productInfo.itemId}`, {
+        putData(`orders/${productInfo.orderId}/items/${productInfo.itemId}`, {
             "productId": productInfo.id,
             "qty": productInfo.itemQty + 1,
             "comment": productInfo.description
@@ -24,7 +24,7 @@ export const CartItem = ({product, getUpdatePageState,activeOrderId}) => {
     }
     const deleteItemQty = (productInfo) => {
 
-        putData(`orders/${activeOrderId}/items/${productInfo.itemId}`, {
+        putData(`orders/${productInfo.orderId}/items/${productInfo.itemId}`, {
             "productId": productInfo.id,
             "qty": productInfo.itemQty - 1,
             "comment": productInfo.description

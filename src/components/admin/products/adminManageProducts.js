@@ -63,7 +63,7 @@ function AdminManageProducts() {
     const deleteCurrentProduct = (id) => {
         deleteData(`products/${id}`)
             .then(response => {
-                getCompaniesData();
+                getProductsData();
                 setUpdatePage(true);
             })
     }

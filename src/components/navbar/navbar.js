@@ -3,9 +3,16 @@ import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart } from "phosphor-react";
 import "./navbar.css";
 
-export const Navbar = () => {
+export const Navbar = ({getShowModalState,role}) => {
   const location = useLocation();
   const userInfo =JSON.parse(localStorage.getItem("userInfo")) ;
+
+
+  const checkIsLogin = (e) =>{
+      if(userInfo === null){
+          getShowModalState(true);
+      }
+  }
 
   return (
     <div className="navbar">
@@ -15,13 +22,14 @@ export const Navbar = () => {
         </Link>
       </div>
       <div className="links">
-        <Link to="/" className={location.pathname === "/" ? "active-link" : ""}>
+        <Link to="/" >
           Shop
         </Link>
-
-        <Link to="/cart" id="cartlink" className={location.pathname === "/cart" ? "active-link" : ""}>
-          <ShoppingCart size={32} />
-        </Link>
+          {(role !== "admin")?
+              <Link to={(userInfo === null)?'#':'/cart'} id="cartlink" onClick={checkIsLogin}>
+                  <ShoppingCart size={32}  />
+              </Link> : ""
+          }
           {(userInfo)?
         <Link to="/client" >
                 <div>

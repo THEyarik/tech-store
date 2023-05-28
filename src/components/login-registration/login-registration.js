@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {redirect, useNavigate} from "react-router-dom";
 
 import "./login-registration.css";
-import {postData} from "../../utils/hooks/hooks";
+import {createOrder, postData} from "../../utils/hooks/hooks";
 
-function LoginRegistration() {
+function LoginRegistration({getRole}) {
     const [dateNewClient, setDateNewClient] = useState();
     const [loginDate, setLoginDate] = useState();
     const [role, setRole] = useState('client');
@@ -20,18 +20,14 @@ function LoginRegistration() {
 
 
     const login = (e) => {
-        e.preventDefault();
         postData(`authentication/login/${role}`, loginDate).then(
             (res) => {
+                getRole(role);
+                createOrder(`orders/create` ,res.data.token);
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("role", role);
                 localStorage.setItem("userInfo", JSON.stringify(res.data));
-                    setTimeout(()=>{
-                        if (role === "admin") {
-                            navigate(`/admin`)
-                        } else
-                            navigate(`/`)
-                    },500)
+                navigate(`/`)
             })
     }
     const loginChange = (e) => {
@@ -40,8 +36,7 @@ function LoginRegistration() {
     const handleChange = (e) => {
         setDateNewClient(prev => ({...prev, [e.target.name]: e.target.value}))
     }
-    const addNewClient = async e => {
-        e.preventDefault();
+    const addNewClient = async () => {
         if (dateNewClient.email == "" || dateNewClient.firstName == "" || dateNewClient.lastName == "" || dateNewClient.password == "") {
             alert('Заповніть всі поля')
         } else

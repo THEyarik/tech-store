@@ -10,7 +10,7 @@ function AdminsManageOrders() {
 
     const getOrdersData = () => {
         getData("orders/all").then(res => {
-            setOrdersData(res.filter((value)=>{
+            setOrdersData(res.filter((value) => {
                 return value.completedAt === null
             }))
         })
@@ -35,8 +35,6 @@ function AdminsManageOrders() {
                     <p className="dashboard__item__list">
                         Orders List
                     </p>
-
-
                 </div>
 
                 <div className="dashboard__list">
@@ -66,8 +64,6 @@ function AdminsManageOrders() {
                             )
                         })
                     }
-
-
                 </div>
             </div>
 
