@@ -1,0 +1,28 @@
+.loader{
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+z-index: 10000;
+    background: black;
+}
+.loader__container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+.animation{
+    width: 400px;
+    height: 400px;
+}
+.animation svg{
+    background-color: transparent!important;
+}
