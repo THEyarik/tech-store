@@ -34,10 +34,8 @@ function AdminManageCompanies({showDashboard}) {
     }
     const saveCompaniesData = () => {
         postData("companies", {"name": companiesInput}).then(res => {
-            if (res === 200) {
                 getCompaniesData();
-                setCreateStatus(false)
-            }
+                setCreateStatus(false);
         })
     }
     const putCompaniesData = () => {

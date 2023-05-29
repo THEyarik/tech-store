@@ -20,6 +20,7 @@ function LoginRegistration({getRole}) {
 
 
     const login = (e) => {
+        e.preventDefault();
         postData(`authentication/login/${role}`, loginDate).then(
             (res) => {
                 getRole(role);
@@ -36,7 +37,8 @@ function LoginRegistration({getRole}) {
     const handleChange = (e) => {
         setDateNewClient(prev => ({...prev, [e.target.name]: e.target.value}))
     }
-    const addNewClient = async () => {
+    const addNewClient = async (e) => {
+        e.preventDefault();
         if (dateNewClient.email == "" || dateNewClient.firstName == "" || dateNewClient.lastName == "" || dateNewClient.password == "") {
             alert('Заповніть всі поля')
         } else
@@ -68,7 +70,7 @@ function LoginRegistration({getRole}) {
                         <div className="login__role" onClick={handleChangeRole}>
                             {(role === "client") ? "as Client" : "as Admin"}
                         </div>
-                        <form action='#'>
+                        <form >
                             <div className="signup" onClick={() => {
                                 setCurrentForm("signUp");
                             }}>
@@ -87,7 +89,7 @@ function LoginRegistration({getRole}) {
                             </div>
                         </form>
 
-                        <form action='#'>
+                        <form >
                             <div className="login slide-up" onClick={() => {
                                 setCurrentForm("login");
                             }}>

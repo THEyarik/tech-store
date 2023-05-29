@@ -48,9 +48,7 @@ export const CartItem = ({product, getUpdatePageState}) => {
             <img className="product__image" src={productPhoto}/>
             <div className="description">
                 <h2>{product.name}</h2>
-                <p>
-                    <b>{product.description}</b>
-                </p>
+
                 <p> Price: {product.unitPrice}</p>
                 <div className="countHandler">
                     <button onClick={() => {
